@@ -250,3 +250,7 @@ id('yanit-formu').addEventListener('submit', olay => {
     id('yanit').focus();
   }
 });
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+}

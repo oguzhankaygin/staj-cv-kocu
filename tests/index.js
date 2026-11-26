@@ -104,3 +104,12 @@ test('CRLF satır sonlu CV, LF alıntıyla eşleşir', () => {
   const { atilan } = yanitAyristir(json, 'Bir proje\r\ngeliştirdim.');
   assert.equal(atilan, 0);
 });
+
+test('service worker önbellek listesindeki her dosya mevcut', async () => {
+  const { readFileSync, existsSync } = await import('node:fs');
+  const sw = readFileSync(new URL('../docs/sw.js', import.meta.url), 'utf8');
+  const liste = JSON.parse(sw.match(/const DOSYALAR = (\[[^\]]*\])/)[1]);
+  for (const dosya of liste.filter((d) => d !== './')) {
+    assert.ok(existsSync(new URL('../docs/' + dosya, import.meta.url)), dosya);
+  }
+});
