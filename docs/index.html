@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Staj ilanıyla CV’nizi tarayıcınızda karşılaştırın ve mülakata hazırlanın.">
+  <title>Staj ve CV Başvuru Koçu</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <header class="site-header"><div class="container brand">Staj ve CV Koçu</div></header>
+  <main class="container">
+    <div class="intro">
+      <h1>Staj ve CV Başvuru Koçu</h1>
+      <p>İlanla CV’nizi karşılaştırın, eksik becerileri görün ve mülakata hazırlanın.</p>
+      <p class="privacy">Bu sayfa metinlerinizi tarayıcınızda işler ve hiçbir sunucuya göndermez. Claude’a siz yapıştırırsanız paylaştığınız metin Claude’a gönderilir.</p>
+    </div>
+    <section class="card" aria-labelledby="girdi-baslik">
+      <div class="section-head">
+        <h2 id="girdi-baslik">İlan ve CV</h2>
+        <button type="button" class="secondary" id="ornek">Örnek yükle</button>
+      </div>
+      <form id="girdi">
+        <div class="grid">
+          <div><label for="ilan">İlan metni</label><textarea id="ilan" required maxlength="30000" rows="9" placeholder="Staj veya ilk iş ilanını yapıştırın."></textarea></div>
+          <div><label for="cv">CV metni</label><textarea id="cv" required maxlength="30000" rows="9" placeholder="CV’nizin düz metnini yapıştırın." spellcheck="false"></textarea></div>
+        </div>
+        <div class="actions">
+          <button type="submit">CV’yi karşılaştır</button>
+          <button type="button" class="secondary" id="temizle">Temizle</button>
+        </div>
+      </form>
+      <p id="girdi-durum" class="status" role="status"></p>
+    </section>
+    <section class="card" id="analiz" aria-labelledby="analiz-baslik" hidden>
+      <h2 id="analiz-baslik" tabindex="-1">Eşleştirme sonucu</h2>
+      <div id="eslesme"></div>
+    </section>
+    <section class="card" aria-labelledby="claude-baslik">
+      <h2 id="claude-baslik">Claude ile geri bildirim</h2>
+      <ol>
+        <li>İlanı ve CV’yi girin, ardından “Claude’da aç” düğmesine basın.</li>
+        <li>Hazır istemi kendi Claude hesabınızda yeni sohbete yapıştırıp gönderin.</li>
+        <li>Yanıtı buraya yapıştırıp inceleyin.</li>
+      </ol>
+      <label class="check"><input id="maske" type="checkbox" checked> İstem oluştururken e-posta, telefon, 11 haneli kimlik numarası ve adres satırlarını maskele</label>
+      <p class="muted">Maskeleme yaygın biçimleri tanır. Paylaşmadan önce istemdeki kişisel bilgileri gözden geçirin.</p>
+      <button type="button" id="claude-ac">Claude’da aç</button>
+      <p id="claude-durum" class="status" role="status"></p>
+      <div id="istem-alani" hidden>
+        <label for="istem">Hazır istem</label>
+        <textarea id="istem" readonly rows="6" spellcheck="false"></textarea>
+        <a href="https://claude.ai/new" target="_blank" rel="noopener noreferrer">Claude’u yeni sekmede aç</a>
+      </div>
+      <form id="yanit-formu">
+        <label for="yanit">Claude’un yanıtını yapıştır</label>
+        <textarea id="yanit" rows="5" required maxlength="100000" spellcheck="false" placeholder="JSON yanıtını olduğu gibi yapıştırın."></textarea>
+        <button type="submit" class="secondary">Yanıtı incele</button>
+      </form>
+      <p id="yanit-durum" class="status" role="status"></p>
+    </section>
+    <section class="card" id="geri-bildirim" aria-labelledby="geri-baslik" hidden>
+      <h2 id="geri-baslik" tabindex="-1">Claude geri bildirimi</h2>
+      <p id="genel"></p>
+      <div id="sekmeler" role="tablist" aria-label="Geri bildirim bölümleri"></div>
+      <div id="paneller"></div>
+    </section>
+  </main>
+  <footer class="container">Kapsama oranı, işverenin ATS puanını veya başvuru sonucunu tahmin etmez.</footer>
+</body>
+</html>
