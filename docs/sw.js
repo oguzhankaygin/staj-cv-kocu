@@ -1,8 +1,8 @@
 "use strict";
 
 // Ağ öncelikli önbellek: çevrimiçiyken her zaman güncel dosya, bağlantı yokken son kopya.
-const CACHE = "staj-cv-kocu-v1";
-const DOSYALAR = ["./", "./app.js","./index.html","./lib/beceriler.js","./lib/claude.js","./lib/eslestir.js","./lib/gizlilik.js","./lib/ornek.js","./style.css"];
+const CACHE = "staj-cv-kocu-v2";
+const DOSYALAR = ["./", "./app.js","./index.html","./lib/beceriler.js","./lib/claude.js","./lib/eslestir.js","./lib/gizlilik.js","./lib/ornek.js","./style.css","./manifest.webmanifest","./ikon.svg","./ikon-192.png","./ikon-512.png"];
 
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(DOSYALAR)).then(() => self.skipWaiting()));

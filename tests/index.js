@@ -113,3 +113,4 @@ test('service worker önbellek listesindeki her dosya mevcut', async () => {
     assert.ok(existsSync(new URL('../docs/' + dosya, import.meta.url)), dosya);
   }
 });
+import './manifest.test.js';

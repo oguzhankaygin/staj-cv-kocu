@@ -4,6 +4,8 @@ Staj ve ilk iş ilanlarını CV’nizle karşılaştırın, eksik becerileri gö
 
 [Tarayıcıda kullan](https://oguzhankaygin.github.io/staj-cv-kocu/)
 
+Telefonda tarayıcı menüsündeki **Ana ekrana ekle** (iPhone’da Paylaş → Ana Ekrana Ekle) seçeneğiyle uygulama gibi açabilirsiniz; bir kez açıldıktan sonra internetsiz de çalışır.
+
 ## Nasıl çalışır?
 
 1. **Çevrimdışı eşleştirme.** İlanı ve CV’yi düz metin olarak yapıştırıp **CV’yi karşılaştır** düğmesine basın. Araç, becerileri ve CV biçimini tarayıcınızda inceler. Kurgusal bir yazılım stajıyla denemek için **Örnek yükle** düğmesini kullanın.
