@@ -20,6 +20,7 @@
       <h1>Staj ve CV Başvuru Koçu</h1>
       <p>İlanla CV’nizi karşılaştırın, eksik becerileri görün ve mülakata hazırlanın.</p>
       <p class="privacy">Bu sayfa metinlerinizi tarayıcınızda işler ve hiçbir sunucuya göndermez. Claude’a siz yapıştırırsanız paylaştığınız metin Claude’a gönderilir.</p>
+      <p><a href="#ilan-takibi">İlan takibine git</a></p>
     </div>
     <section class="card" aria-labelledby="girdi-baslik">
       <div class="section-head">
@@ -70,6 +71,69 @@
       <p id="genel"></p>
       <div id="sekmeler" role="tablist" aria-label="Geri bildirim bölümleri"></div>
       <div id="paneller"></div>
+    </section>
+    <section class="card" id="ilan-takibi" aria-labelledby="takip-baslik">
+      <h2 id="takip-baslik">İlan takibi</h2>
+      <p>Son başvuru tarihlerini ve durumları takip edin. Uyum hesabı için <a href="#cv">CV’nizi bir kez ekleyin</a>.</p>
+      <form id="takip-cikar">
+        <label for="takip-metin">Takip edilecek ilan metni</label>
+        <textarea id="takip-metin" required maxlength="30000" rows="6"></textarea>
+        <button type="submit" class="secondary">İlan bilgilerini çıkar</button>
+      </form>
+      <form id="takip-ekle" hidden>
+        <div class="grid">
+          <div><label for="takip-ad">Kurum / pozisyon</label><input id="takip-ad" type="text" required maxlength="160"></div>
+          <div><label for="takip-tarih">Son başvuru tarihi</label><input id="takip-tarih" type="date" min="1000-01-01" max="9999-12-31" aria-describedby="takip-tarih-uyari">
+            <p id="takip-tarih-uyari" class="status" role="status"></p></div>
+          <div><label for="takip-konum">Konum</label><input id="takip-konum" type="text" maxlength="500"></div>
+          <div><label for="takip-sekil">Çalışma şekli</label><input id="takip-sekil" type="text" maxlength="100"></div>
+        </div>
+        <p id="takip-ipuclari" class="status" role="status"></p>
+        <div class="actions">
+          <button type="submit" id="takip-kaydet">Takibe ekle</button>
+          <button type="button" id="takip-vazgec" class="secondary">Vazgeç</button>
+        </div>
+      </form>
+      <p id="takip-durum" class="status" role="status"></p>
+      <div class="takip-saklama">
+        <label class="check"><input id="takip-onay" type="checkbox" aria-describedby="takip-saklama-aciklama"> İlanları, notları ve CV’yi bu tarayıcıda sakla</label>
+        <p id="takip-saklama-aciklama" class="muted">Bu kutuyu işaretlerseniz ilan metinleri, takip bilgileri ve CV bu tarayıcıda saklanır. İşareti kaldırınca saklanan kopya silinir.</p>
+        <button type="button" id="takip-sil" class="secondary">Verilerimi sil</button>
+        <p id="takip-saklama-durum" class="status" role="status"></p>
+      </div>
+      <h3 id="takip-liste-baslik">Takip edilen ilanlar</h3>
+      <div class="actions">
+        <label for="takip-sirala">Sıralama</label>
+        <select id="takip-sirala"><option value="tarih">Son tarih</option><option value="uyum">Uyum</option></select>
+      </div>
+      <p id="takip-sayac" class="status" role="status"></p>
+      <div class="takip-tablo" role="region" aria-labelledby="takip-liste-baslik" tabindex="0">
+        <table aria-label="Takip edilen ilanlar">
+          <thead><tr>
+            <th scope="col">Seçim</th><th scope="col">Kurum / pozisyon</th><th scope="col">Son tarih</th>
+            <th scope="col">Konum / şekil</th><th scope="col">CV uyumu</th><th scope="col">Durum</th><th scope="col">Not</th>
+          </tr></thead>
+          <tbody id="takip-satirlar"></tbody>
+        </table>
+      </div>
+      <div class="actions">
+        <button type="button" id="takip-csv" class="secondary">Tüm ilanları CSV indir</button>
+        <button type="button" id="takip-ics" class="secondary">Seçili tarihleri takvime aktar</button>
+        <button type="button" id="takip-claude">Seçili ilanları Claude’da aç</button>
+      </div>
+      <p id="takip-islem-durum" class="status" role="status"></p>
+      <div id="takip-istem-alani" hidden>
+        <label for="takip-istem">Hazır istem (maskeli)</label>
+        <textarea id="takip-istem" readonly rows="6" spellcheck="false"></textarea>
+        <a href="https://claude.ai/new" target="_blank" rel="noopener noreferrer">Claude’u yeni sekmede aç</a>
+      </div>
+      <form id="takip-yanit-formu">
+        <label for="takip-yanit">Claude’un ilan sıralamasını yapıştır</label>
+        <textarea id="takip-yanit" required maxlength="100000" rows="5" spellcheck="false"></textarea>
+        <button type="submit" class="secondary">Sıralamayı incele</button>
+      </form>
+      <p id="takip-yanit-durum" class="status" role="status"></p>
+      <div id="takip-sonuc"></div>
     </section>
   </main>
   <footer class="container"><p>Kapsama oranı, işverenin ATS puanını veya başvuru sonucunu tahmin etmez.</p>

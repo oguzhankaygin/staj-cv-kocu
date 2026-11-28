@@ -65,6 +65,10 @@ function dogrula(nesne, cv) {
 }
 
 export function yanitAyristir(metin, cv) {
+  return jsonYanitAyristir(metin, nesne => dogrula(nesne, cv));
+}
+
+export function jsonYanitAyristir(metin, dogrula) {
   if (metin.length > 100_000) throw new Error('Yanıt 100.000 karakteri aşıyor.');
   const bloklar = [...metin.matchAll(/```(?:json)?\s*([\s\S]*?)```/gi)].map(([, blok]) => blok);
   // JSON dizgilerindeki süslü parantezleri atlayarak düz yazı içindeki nesneleri çıkar.
@@ -92,7 +96,7 @@ export function yanitAyristir(metin, cv) {
     } catch {
       continue;
     }
-    const gecerli = dogrula(nesne, cv);
+    const gecerli = dogrula(nesne);
     if (gecerli) return gecerli;
   }
   throw new Error('Beklenen JSON şeması bulunamadı. Claude yanıtının tamamını yapıştırın.');

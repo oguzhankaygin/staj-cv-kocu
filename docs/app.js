@@ -1,3 +1,4 @@
+import { takipBaslat } from './takip.js';
 import { eslestir } from './lib/eslestir.js';
 import { promptUret, yanitAyristir } from './lib/claude.js';
 import { ornekIlan, ornekCv } from './lib/ornek.js';
@@ -103,11 +104,9 @@ id('temizle').addEventListener('click', () => {
   id('girdi-durum').textContent = 'Sayfadaki metinler ve sonuçlar temizlendi.';
 });
 
-id('claude-ac').addEventListener('click', async () => {
-  if (!girdiHazir()) return;
-  const hazirIstem = promptUret(ilan.value, cv.value, maske.checked);
+async function claudeAc(hazirIstem, istem, alan, durum) {
   istem.value = hazirIstem;
-  id('istem-alani').hidden = false;
+  alan.hidden = false;
   let kopyalandi = false;
   // Her iki işlemi de tıklama sırasında başlat, açılır pencere izni beklerken sona ermesin.
   const kopyala = (async () => navigator.clipboard?.writeText(hazirIstem))();
@@ -119,12 +118,16 @@ id('claude-ac').addEventListener('click', async () => {
     kopyalandi = false;
   }
   if (istem.value !== hazirIstem) return;
-  id('claude-durum').textContent = kopyalandi ? 'İstem panoya kopyalandı.'
+  durum.textContent = kopyalandi ? 'İstem panoya kopyalandı.'
     : 'Otomatik kopyalama kullanılamadı. Seçili istemi kopyalayıp Claude’a yapıştırın.';
   if (!kopyalandi) {
     istem.focus();
     istem.select();
   }
+}
+
+id('claude-ac').addEventListener('click', () => {
+  if (girdiHazir()) claudeAc(promptUret(ilan.value, cv.value, maske.checked), istem, id('istem-alani'), id('claude-durum'));
 });
 
 function pratik(sorular) {
@@ -250,6 +253,8 @@ id('yanit-formu').addEventListener('submit', olay => {
     id('yanit').focus();
   }
 });
+
+takipBaslat({ id, oge, cv, claudeAc });
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').catch(() => {});

@@ -79,3 +79,32 @@ blockquote { margin: 0 0 .6rem; padding-inline-start: .65rem; border-inline-star
 }
 button:disabled { cursor: default; background: var(--tint); color: var(--muted); border-color: var(--edge); }
 fieldset { border: 1px solid var(--edge); margin: .7rem 0 0; min-width: 0; }
+#ilan-takibi { scroll-margin-top: 1rem; }
+#takip-ekle, #takip-yanit-formu, .takip-saklama { margin-top: 1rem; }
+.takip-saklama { border-block: 1px solid var(--edge); padding-block: .85rem; margin-bottom: 1rem; }
+#ilan-takibi input:not([type="checkbox"]), #ilan-takibi select {
+  max-width: 100%; margin: .35rem 0; padding: .5rem; min-height: 44px;
+  background: var(--bg); color: var(--text); border: 1px solid var(--edge);
+  border-radius: .45rem; font: inherit;
+}
+#takip-ekle input { width: 100%; }
+.takip-tablo { overflow-x: auto; margin-bottom: .9rem; }
+.takip-tablo table { border-collapse: collapse; width: 100%; min-width: 58rem; text-align: start; }
+.takip-tablo th, .takip-tablo td {
+  vertical-align: top; text-align: start; padding: .6rem; border-bottom: 1px solid var(--edge);
+}
+.takip-tablo thead { background: var(--tint); }
+.takip-tablo th { white-space: nowrap; }
+.takip-tablo button { display: block; margin-top: .45rem; }
+.takip-tablo textarea { min-width: 8rem; margin: 0; }
+.takip-tablo td:nth-child(3) { min-width: 8rem; }
+.takip-yakin, .takip-gecmis { font-weight: 750; }
+.takip-yakin { color: #7b4200; }
+.takip-gecmis { color: #a02637; }
+@media (prefers-color-scheme: dark) {
+  .takip-yakin { color: #ffd08b; }
+  .takip-gecmis { color: #ffa9b7; }
+}
+.ekran-okuyucu {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}

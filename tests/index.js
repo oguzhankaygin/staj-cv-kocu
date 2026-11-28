@@ -114,3 +114,5 @@ test('service worker önbellek listesindeki her dosya mevcut', async () => {
   }
 });
 import './manifest.test.js';
+
+import './ilan.test.js';

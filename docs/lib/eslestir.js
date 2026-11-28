@@ -18,26 +18,55 @@ export function tokenize(metin) {
   return parcalar(metin).map(({ normal }) => normal).filter(sozcuk => !duraklar.has(sozcuk)).map(kok);
 }
 
-const sozluk = beceriler.flatMap(beceri => beceri.adlar.map(ad => ({
-  beceri, aranan: parcalar(ad).map(({ normal }) => normal),
-})));
+const sozluk = new Map();
+for (const beceri of beceriler) {
+  for (const ad of beceri.adlar) {
+    const aranan = parcalar(ad).map(({ normal }) => normal);
+    const ilkKok = kok(aranan[0]);
+    const eslesmeler = sozluk.get(ilkKok) ?? [];
+    eslesmeler.push({
+      beceri, kokler: aranan.map(kok),
+      tamYazim: aranan.length === 1 && ['c', 'go', 'r'].includes(aranan[0]),
+    });
+    sozluk.set(ilkKok, eslesmeler);
+  }
+}
 
 function beceriBul(metin) {
   const kelimeler = parcalar(metin);
+  const kokler = kelimeler.map(({ normal }) => kok(normal));
   const bulunan = new Set();
-  for (const { beceri, aranan } of sozluk) {
-    if (kelimeler.some((kelime, i) => aranan.every((ad, j) => {
-      const hedef = kelimeler[i + j];
-      if (!hedef) return false;
-      if (aranan.length === 1 && (ad === 'c' || ad === 'go' || ad === 'r')) return hedef.ham.replace(/'.*$/, '') === beceri.ad;
-      return hedef.normal === ad || kok(hedef.normal) === kok(ad);
-    }))) bulunan.add(beceri.ad);
+  for (const [i, ilkKok] of kokler.entries()) {
+    for (const { beceri, kokler: aranan, tamYazim } of sozluk.get(ilkKok) ?? []) {
+      if (bulunan.has(beceri.ad)) continue;
+      if (tamYazim ? kelimeler[i].ham.replace(/'.*$/, '') === beceri.ad
+        : aranan.every((ad, j) => kokler[i + j] === ad)) bulunan.add(beceri.ad);
+    }
   }
   return bulunan;
 }
 
 const baslik = /^\s*(?:[-*•#]+\s*)?(?:(aranan nitelikler|zorunlu nitelikler|temel nitelikler|gereklilikler|requirements|required qualifications|minimum qualifications|must[- ]have)|(?:tercih edilen nitelikler|tercih sebebi|tercihen|nice[- ]to[- ]have|preferred qualifications|preferred|bonus))(?=\s|[:：–—-]|$)\s*[:：–—-]?\s*/iu;
 const digerBaslik = /^\s*(?:#+\s*)?(?:görevler|sorumluluklar|iş tanımı|yan haklar|biz kimiz|responsibilities|about us|benefits|what we offer)\s*[:：]?\s*$/iu;
+
+export function gereksinimBolumleri(ilan) {
+  const gereksinimler = [];
+  let bolum = false;
+  for (const satir of ilan.split(/\r?\n/)) {
+    const kucuk = satir.toLocaleLowerCase('tr');
+    const giris = kucuk.match(baslik);
+    if (giris) {
+      bolum = !satir.slice(giris[0].length) || /[:：–—]/.test(giris[0]);
+      gereksinimler.push(satir);
+    } else if (digerBaslik.test(kucuk) || /^\s*[^:：]{1,60}[:：]\s*$/.test(satir)
+      || /^\s*(?:son başvuru|başvuru|konum|location|çalışma şekli|ücret)\s*[:：]/u.test(kucuk)) {
+      bolum = false;
+    } else if (bolum) {
+      gereksinimler.push(satir);
+    }
+  }
+  return gereksinimler.join('\n').trim();
+}
 
 function ilanBecerileri(ilan) {
   const zorunlu = new Set();
